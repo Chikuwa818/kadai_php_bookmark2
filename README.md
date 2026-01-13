@@ -6,7 +6,7 @@
 お買い物リストを更新したり、買ったものは削除できるようにしました
 
 ## ③アプリのデプロイURL
-https://www.chikuwa818.sakura.ne.jp/kadai_php_bookmark2/index.php
+https://www.chikuwa818.sakura.ne.jp/kadai_php_bookmark2_sakura/index.php
 ## ④アプリのログイン用IDまたはPassword（ある場合）
 なし
 
