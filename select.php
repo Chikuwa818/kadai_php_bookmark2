@@ -3,7 +3,9 @@
 include("funcs.php");
 $pdo = db_conn();
 
-// 一覧取得
+// 対象テーブルのデータ全取得　→ id大きい順にに並べる、小さい順は　ASC
+// Ascending,Descending
+// こっちはSQLでデータをひっぱてきてstmtに入れているだけの状態
 $sql = "SELECT * FROM shopping_items ORDER BY id DESC";
 $stmt = $pdo->prepare($sql);
 $status = $stmt->execute();
@@ -12,6 +14,7 @@ if ($status === false) {
   sql_error($stmt);
 }
 
+// ここでPHPが使う用の全データ取得
 $values = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $json = json_encode($values, JSON_UNESCAPED_UNICODE);
 ?>
@@ -50,6 +53,8 @@ $json = json_encode($values, JSON_UNESCAPED_UNICODE);
     </thead>
     <tbody>
       <?php foreach ($values as $v): ?>
+        <!-- $valuesが全レコード、$vで１行ずつ取り出し -->
+        <!-- ?? "" 空白でもエラー吐かないようにするいつものやつ-->
         <tr>
           <td><?= h($v["id"] ?? "") ?></td>
           <td><?= h($v["item_name"] ?? "") ?></td>
@@ -57,13 +62,12 @@ $json = json_encode($values, JSON_UNESCAPED_UNICODE);
           <td><?= h($v["importance"] ?? "") ?></td>
           <td><?= h($v["quantity"] ?? "") ?></td>
           <td><?= h($v["memo"] ?? "") ?></td>
-
+        <!-- ここのhはXSS対策 -->
           <!-- 更新：detail.phpへ -->
           <td>
             <a class="btn btn-xs btn-primary" href="detail.php?id=<?= h($v["id"] ?? "") ?>">更新</a>
           </td>
-
-          <!-- 削除：delete.phpへ（誤クリック防止 confirm） -->
+          <!-- 削除：delete.phpへ（confirmで誤クリック防止） -->
           <td>
             <a class="btn btn-xs btn-danger"
                href="delete.php?id=<?= h($v["id"] ?? "") ?>"
@@ -81,5 +85,9 @@ $json = json_encode($values, JSON_UNESCAPED_UNICODE);
   const a = <?= $json ? $json : "[]" ?>;
   console.log(a);
 </script>
+
+<hr>
+<a href="index.php"> データ登録画面へ</a>
+
 </body>
 </html>

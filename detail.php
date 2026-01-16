@@ -2,7 +2,7 @@
 include("funcs.php");
 $pdo = db_conn();
 
-// 1) id取得
+// 1) id取得　idが数字じゃなかったり空欄だったらエラーを返す
 $id = $_GET["id"] ?? "";
 if ($id === "" || !is_numeric($id)) {
   exit("IDが不正です");

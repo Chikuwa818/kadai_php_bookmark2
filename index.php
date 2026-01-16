@@ -18,12 +18,16 @@
 <form method="POST" action="insert.php">
   <div class="jumbotron">
     <fieldset>
+      <!-- タイトル -->
       <legend>買い物リスト登録</legend>
-
+      
+      <!-- テキスト自由入力 -->
       <label>商品名：
         <input type="text" name="item_name" required>
+      <!-- 必須項目にしたいから requiredをつける ブラウザ依存の機能らしい-->
       </label><br><br>
 
+      <!-- セレクトボックス -->
       <label>ジャンル：
         <select name="genre">
           <option value="食品">食品</option>
@@ -33,16 +37,20 @@
         </select>
       </label><br><br>
 
+      <!-- ラジオボタン セレクトボックスと違ってデフォルト値が設定されないので、checkedをどれかにつける-->
       <label>重要度：</label>
       <label><input type="radio" name="importance" value="高" checked> 高</label>
       <label><input type="radio" name="importance" value="中"> 中</label>
       <label><input type="radio" name="importance" value="低"> 低</label>
       <br><br>
 
+      <!-- INTデータ -->
       <label>数量：
         <input type="number" name="quantity" min="1" value="1" required>
       </label><br><br>
-
+      <!-- 必須項目にしたいから requiredをつける -->
+       
+      <!-- テキスト　大きめ　空欄でもOK -->
       <label>メモ：<br>
         <textarea name="memo" rows="3" cols="40"></textarea>
       </label><br><br>

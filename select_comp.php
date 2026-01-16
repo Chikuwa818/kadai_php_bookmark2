@@ -77,5 +77,9 @@ $json = json_encode($values,JSON_UNESCAPED_UNICODE);
   const a = '<?php echo $json; ?>';
   console.log(JSON.parse(a));
 </script>
+
+<hr>
+<a href="index.php">データ登録画面へ</a>
+
 </body>
 </html>

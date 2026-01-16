@@ -1,8 +1,11 @@
 <?php
+// funcs.php読み込み、DB接続
 include("funcs.php");
 $pdo = db_conn();
 
-// 1) POST取得（未入力でも落ちないように）
+// POST取得
+// trim 文字列の先頭および末尾にある空白入力を取り除く　https://www.php.net/manual/ja/function.trim.php
+// ** ?? "" →　左がなかったら右の値を入れる、index.php側の構造的はないけど
 $item_name  = trim($_POST["item_name"] ?? "");
 $genre      = $_POST["genre"] ?? "";
 $importance = $_POST["importance"] ?? "";
@@ -13,12 +16,13 @@ $memo       = $_POST["memo"] ?? "";
 if ($item_name === "") {
     exit("商品名が未入力です。");
 }
+// is_numeric 変数が数字または数値形式の文字列か調べる　https://www.php.net/manual/ja/function.is-numeric.php　これも原則おこらないはず
+// ほんで１以上の値が入っているかもチェックする
 if (!is_numeric($quantity) || (int)$quantity < 1) {
     exit("数量が不正です。");
 }
-$quantity = (int)$quantity;
 
-// 3) INSERT（日時カラムはテーブル定義に依存するので、ここでは入れない）
+// INSERT SQL分を変数に入れて使う
 $sql = "INSERT INTO shopping_items (item_name, genre, importance, quantity, memo)
         VALUES (:item_name, :genre, :importance, :quantity, :memo)";
 $stmt = $pdo->prepare($sql);
@@ -31,7 +35,7 @@ $stmt->bindValue(':memo',       $memo,       PDO::PARAM_STR);
 
 $status = $stmt->execute();
 
-// 4) 成功/失敗
+// 失敗したらエラー、成功したら登録リストへ
 if ($status === false) {
     sql_error($stmt);
 } else {
